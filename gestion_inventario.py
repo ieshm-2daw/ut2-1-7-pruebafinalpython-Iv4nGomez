@@ -86,11 +86,11 @@ class Inventario:
         datos = []
 
         for producto in self.productos:
-            productodict = {"codigo":producto.codigo, "nombre": producto.nombre, "precio": producto.precio, "stock":producto.stock, "proveedor": {"codigo": producto["proveedor"]["codigo"], "nombre": producto["proveedor"]["nombre"], "contacto": producto["proveedor"]["contacto"]}}
+            productodict = {"codigo":producto.codigo, "nombre": producto.nombre, "precio": producto.precio, "stock":producto.stock, "proveedor": {"codigo": producto.proveedor.codigo, "nombre": producto.proveedor.nombre, "contacto": producto.proveedor.contacto}}
             datos.append(productodict)
 
         with open("inventario.json", "w", encoding="utf-8") as f:
-            json.dump(f, datos, indent=4, ensure_ascii=False) 
+            json.dump(datos, f , indent=4, ensure_ascii=False) 
 
         # TODO: recorrer self.productos y guardar los datos en formato JSON
 
@@ -171,13 +171,24 @@ class Inventario:
 
         print("El total es: ", total, "€")
 
-    def mostrar_por_proveedor(self, nombre_proveedor):
+    def mostrar_por_proveedor(self, cod_proveedor):
         """
         Muestra todos los productos de un proveedor determinado.
         Si no existen productos de ese proveedor, mostrar un mensaje.
         """
         # TODO: filtrar y mostrar los productos de un proveedor concreto
-        pass
+        
+        productos = []
+
+        for producto in self.productos:
+            if producto.proveedor.codigo == cod_proveedor:
+                productos.append(producto)
+
+        if not productos:
+            print("No hay productos de este proveedor")
+
+        return productos
+
 
 
 # ======================================================
@@ -229,9 +240,11 @@ def main():
         elif opcion == 6:
             i1.valor_total()
         elif opcion == 7:
-            pass
+            codigo = input("Introduce el codigo de un proveedor:")
+            print(i1.mostrar_por_proveedor(codigo))
         elif opcion == 8:
-            i1.guardar()
+            # i1.guardar()
+            # print("Guardando y saliendo..")
             break
 
 
