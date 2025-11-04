@@ -129,21 +129,47 @@ class Inventario:
         Permite modificar los datos de un producto existente.
         """
         # TODO: buscar el producto y actualizar sus atributos
-        
+
+        productoEncontrado = None
+
+        for producto in self.productos:
+            if producto.codigo == codigo:
+                productoEncontrado = producto
+
+        if nombre:
+            productoEncontrado.nombre = nombre
+
+        if precio:
+            productoEncontrado.precio = precio
+
+        if stock:
+            productoEncontrado.stock = stock
+
+        print("Producto modificado!")
+
 
     def eliminar(self, codigo):
         """
         Elimina un producto del inventario según su código.
         """
-        # TODO: eliminar el producto de la lista
-        pass
+
+        self.productos = [producto for producto in self.productos if producto.codigo != codigo]
+        print("Producto eliminado!")
+
+        for producto in self.productos:
+            if producto.codigo == codigo:
+                print("El producto no se puedo eliminar")
 
     def valor_total(self):
         """
         Calcula y devuelve el valor total del inventario (precio * stock).
         """
-        # TODO: devolver la suma total del valor del stock
-        pass
+        total = 0
+
+        for producto in self.productos:
+            total += producto.precio * producto.stock
+
+        print("El total es: ", total, "€")
 
     def mostrar_por_proveedor(self, nombre_proveedor):
         """
@@ -190,11 +216,18 @@ def main():
             codigo_buscado = input("Introduce un codigo")
             print(i1.buscar(codigo_buscado))
         elif opcion == 4:
-            pass
+            codigo = input("Introduce el codigo del producto que quieres buscar:")
+            nombre = input("Introduce el nombre")
+            precio = float(input("Introduce el precio:"))
+            stock = int(input("Introduce el stock:"))
+            i1.modificar(codigo, nombre, precio, stock)
+
         elif opcion == 5:
-            pass
+            codigo = input("Introduce el codigo del producto que quieres eliminar:")
+            i1.eliminar(codigo)
+
         elif opcion == 6:
-            pass
+            i1.valor_total()
         elif opcion == 7:
             pass
         elif opcion == 8:
